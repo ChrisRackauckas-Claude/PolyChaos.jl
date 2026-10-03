@@ -258,10 +258,7 @@ function sampleMeasure(
             return AdaptiveRejectionSampling.run_sampler!(sampler, n)
         end
 
-        lo, hi = dom
-        init = isfinite(lo) && isfinite(hi) ? (lo + hi) / 2 :
-            isfinite(lo) ? lo + 1 : isfinite(hi) ? hi - 1 : 0
-        objective = AdaptiveRejectionSampling.Objective(x -> log(w(x)), init)
+        objective = AdaptiveRejectionSampling.Objective(x -> log(w(x)), 0.0)
         sampler = AdaptiveRejectionSampling.ARSampler(objective, dom)
         return AdaptiveRejectionSampling.sample!(sampler, n)
     elseif method == "rejection"
