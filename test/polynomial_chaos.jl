@@ -5,6 +5,15 @@ function betaMoments(α, β)
     return α / (α + β), sqrt(α * β / ((α + β)^2 * (1 + α + β)))
 end
 
+@testset "adaptive rejection sampling through sampleMeasure" begin
+    Random.seed!(1234)
+    samples = sampleMeasure(1_000, x -> exp(-x^2 / 2), (-1.0, 1.0))
+
+    @test length(samples) == 1_000
+    @test all(x -> -1.0 <= x <= 1.0, samples)
+    @test abs(mean(samples)) < 0.1
+end
+
 degs, Nsamples = 1:5, 10000
 
 Random.seed!(1234)
